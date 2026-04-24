@@ -1,56 +1,3 @@
-// import { Input } from "@heroui/react";
-// import { useMutation } from "@tanstack/react-query";
-// import axios from "axios";
-// import { ArrowRight } from "iconsax-reactjs";
-// import React, { useState } from "react";
-
-// export default function CommentCreation({postId}) {
-// console.log('Post ID:', postId);
-
-// const [commentValue, setCommentValue]= useState('')
-
-// function handleCommentSubmit(){
-//     if(!commentValue.trim()) return;
-//     const commentObj={
-//     comment:commentValue,
-//     image:null
-// }
-
-//    return axios.post(`https://route-posts.routemisr.com/posts/${postId}/comments`,
-//         commentObj
-//         ,
-//         {headers:{
-//             token:localStorage.getItem('token')
-//         }}
-//     )
-// }
-//  const {isPending, isError, isSuccess, mutate} =useMutation({
-//     mutationFn: handleCommentSubmit,
-// })
-
-//   return (
-//     <div className="p-5">
-//       <Input id="inputComment"
-//         labelPlacement="outside"
-//         placeholder="Add Comment"
-//         endContent={
-//           <div onClick={mutate} className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 transition cursor-pointer">
-//             <ArrowRight
-//               size="20"
-//               className="text-blue-500 hover:text-blue-800 transition"
-//             />
-//           </div>
-//         }
-//         type="text"
-//         value={commentValue}
-//         onChange={(e) => setCommentValue(e.target.value)}
-
-//       />
-//     </div>
-//   );
-// }
-
-
 import { Input } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -58,7 +5,7 @@ import { ArrowRight, Gallery } from "iconsax-reactjs";
 import React, { useState, useRef } from "react";
 
 export default function CommentCreation({ postId }) {
-              console.log('postId', postId);
+  // console.log('postId', postId);
   const [commentValue, setCommentValue] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);

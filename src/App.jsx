@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Home from "./Components/Home/Home";
@@ -11,7 +11,9 @@ import Profile from "./Components/Profile/Profile";
 import ProtectedRegisterRoute from "./ProtectedRoute/ProtectedRegisterRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostDetails from "./Components/PostDetails/PostDetails";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer, Zoom } from "react-toastify";
+import EditPostContextProvider from "./Context/EditPostContext";
+import UserDataContextProvider from "./Context/UserDataContext";
 
 const router = createBrowserRouter([
   {
@@ -81,18 +83,65 @@ const router = createBrowserRouter([
 
 const QueryClientConfig = new QueryClient();
 export default function App() {
+  useEffect(() => {
+    const handleOffline = () => {
+      toast.warning(" No Internet Connection", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+        transition: Zoom,
+      });
+    };
+
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+  useEffect(() => {
+    const handleOnline = () => {
+      toast.success(" Back online!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+        transition: Zoom,
+      });
+    };
+
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
+
   return (
     <>
-      <QueryClientProvider client={QueryClientConfig}>
-        <AuthcontextProvider>
 
-          <HeroUIProvider>
-            <RouterProvider router={router} />
-            <ToastContainer />
-          </HeroUIProvider>
+        <QueryClientProvider client={QueryClientConfig}>
 
-        </AuthcontextProvider>
-      </QueryClientProvider>
+    <UserDataContextProvider>
+      <EditPostContextProvider>
+          <AuthcontextProvider>
+            <HeroUIProvider>
+              <RouterProvider router={router} />
+              <ToastContainer />
+            </HeroUIProvider>
+          </AuthcontextProvider>
+      </EditPostContextProvider>
+      </UserDataContextProvider>
+      
+        </QueryClientProvider>
+
     </>
   );
 }

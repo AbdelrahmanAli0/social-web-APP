@@ -15,6 +15,7 @@ import {
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Authcontext } from "../../Context/Authcontext";
+import { UserDataContext } from "../../Context/UserDataContext";
 
 export const AcmeLogo = () => {
   return (
@@ -28,17 +29,20 @@ export const AcmeLogo = () => {
     </svg>
   );
 };
- 
-
 
 export default function MyNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { UserToken , clearusertoken } = useContext(Authcontext);
+  const { UserToken, clearusertoken } = useContext(Authcontext);
   const Isuserloggedin = !!UserToken;
-  const menuItems = Isuserloggedin ? ["Profile", "Home"] : [  "Login","Register" ] ;
+  const menuItems = Isuserloggedin
+    ? ["Profile", "Home"]
+    : ["Login", "Register"];
   const Navigate = useNavigate();
 
-  function handlelogout(){
+  const { userData } = useContext(UserDataContext);
+  const photo = userData?.photo;
+
+  function handlelogout() {
     Navigate("/Login");
     clearusertoken();
   }
@@ -54,56 +58,65 @@ export default function MyNavbar() {
 
       <NavbarContent as="div" justify="end">
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          { !Isuserloggedin && <>
+          {!Isuserloggedin && (
+            <>
               <NavbarItem>
-            <Link color="foreground" to="/Register">
-              Register
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" to="/Login">
-              Login
-            </Link>
-          </NavbarItem>
-          </>}
-          {Isuserloggedin && <NavbarItem>
-            <Link color="foreground" to="/Home">
-              Home
-            </Link>
-          </NavbarItem>}
+                <Link color="foreground" to="/Register">
+                  Register
+                </Link>
+              </NavbarItem>
+              <NavbarItem>
+                <Link color="foreground" to="/Login">
+                  Login
+                </Link>
+              </NavbarItem>
+            </>
+          )}
+          {Isuserloggedin && (
+            <NavbarItem>
+              <Link color="foreground" to="/Home">
+                Home
+              </Link>
+            </NavbarItem>
+          )}
         </NavbarContent>
 
-      {Isuserloggedin &&   <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              //coud be change to the user image
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
-          </DropdownTrigger>
+        {Isuserloggedin && (
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="secondary"
+                name="Jason Hughes"
+                size="sm"
+                //coud be change to the user image
+                src={
+                  photo ||
+                  "https://static.vecteezy.com/system/resources/previews/021/548/095/original/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"
+                }
+              />
+            </DropdownTrigger>
 
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="settings">
-              <Link to="/Profile" className="w-full block">
-                Profile
-              </Link>
-            </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={handlelogout}>
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>}
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="settings">
+                <Link to="/Profile" className="w-full block">
+                  Profile
+                </Link>
+              </DropdownItem>
+              <DropdownItem key="logout" color="danger" onClick={handlelogout}>
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </NavbarContent>
 
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link className="w-full" to={" /${item}"} size="lg">
+            <Link className="w-full" to={`/${item}`} size="lg">
               {item}
             </Link>
           </NavbarMenuItem>

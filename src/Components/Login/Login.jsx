@@ -103,13 +103,14 @@ export default function Login() {
         )}
       </div>
 
-      <button
+        <button
         disabled={IsLoading}
         className="mt-3 border border-cyan-800 text-cyan-800 hover:text-white hover:bg-cyan-800 duration-200 px-15 py-3 cursor-pointer rounded-3xl"
       >
         {IsLoading ? <RiseLoader color="#0091ff" size={15} margin={0} /> : "Login"}
       </button>
     </form>
+
     </>
   );
 }
