@@ -87,15 +87,6 @@ src/
  ├── App.jsx
  └── main.jsx
 ```
-
----
-
-## 🧠 Notes
-
-* Make sure Tailwind is properly configured
-* Ensure all dependencies are installed before running
-* Fix any missing imports before deployment
-
 ---
 
 ## 👨‍💻 Author
